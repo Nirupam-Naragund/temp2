@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Shreya Katti</title>
+    <!-- Fonts: Playfair for elegance, Montserrat for modern feel -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&family=Playfair+Display:ital,wght=0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --accent-color: #d4af37; /* Gold */
+            --text-color: #f1f1f1;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+            text-align: center;
+        }
+
+        /* 1. INITIAL LANDING SCREEN (To bypass browser audio block) */
+        #landing-gate {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #000;
+            z-index: 10000; /* Stays above everything else */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        .enter-btn {
+            background: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+            padding: 15px 40px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            border-radius: 30px;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+            transition: all 0.4s ease;
+        }
+        .enter-btn:hover {
+            background: var(--accent-color);
+            color: #000;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.6);
+            transform: scale(1.05);
+        }
+
+        /* 2. INTRO SPLASH VIDEO STYLES */
+        #video-splash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #000;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1s ease-out, visibility 1s ease-out;
+        }
+        #video-splash video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .skip-btn {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 10px 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            text-transform: uppercase;
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+        .skip-btn:hover {
+            background: var(--accent-color);
+            color: #000;
+            border-color: var(--accent-color);
+        }
+
+        /* Reusable fade class for JS */
+        .fade-out {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* MAIN CONTENT STYLES */
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+        h1, h2 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+        .gold-text { color: var(--accent-color); }
+        
+        #hero h1 { font-size: 3rem; margin-bottom: 10px; }
+        .scroll-hint { font-size: 0.8rem; margin-top: 30px; opacity: 0.6; }
+
+        .video-container {
+            width: 90%;
+            max-width: 800px;
+            border: 1px solid #333;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .audio-card {
+            background: #1a1a1a;
+            padding: 20px;
+            margin: 15px;
+            border-radius: 5px;
+            width: 100%;
+            max-width: 400px;
+            border-left: 3px solid var(--accent-color);
+            text-align: left;
+        }
+        audio { width: 100%; filter: invert(100%); margin-top: 10px; }
+        .note { max-width: 600px; line-height: 1.8; font-style: italic; }
+    </style>
+</head>
+<body>
+
+    <!-- STEP 1: LANDING GATE (Forces interaction so audio can legally play) -->
+    <div id="landing-gate">
+        <button class="enter-btn" onclick="startExperience()">Open Special Message ✨</button>
+    </div>
+
+    <!-- STEP 2: INTRO SPLASH SCREEN (Plays WITH sound once gate is clicked) -->
+    <div id="video-splash">
+        <!-- Notice 'muted' is completely gone, and 'autoplay' is handled by JS instead -->
+        <video id="intro-video" playsinline>
+            <source src="VN20260519_001226.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <button class="skip-btn" onclick="exitSplash()">Skip Intro →</button>
+    </div>
+
+    <!-- SECTION 1: Intro -->
+    <section id="hero" data-aos="fade-up">
+        <h1>For <span class="gold-text">Shreya Katti</span></h1>
+        <p>A collection of moments and melodies.</p>
+        <div class="scroll-hint">Scroll to begin ↓</div>
+    </section>
+
+    <!-- SECTION 2: Video -->
+    <section id="video" data-aos="fade-up">
+        <h2 class="gold-text">Our Story</h2>
+        <div class="video-container">
+            <iframe width="100%" height="450" src="YOUR_YOUTUBE_OR_VIMEO_EMBED_LINK" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </section>
+
+    <!-- SECTION 3: Recordings -->
+    <section id="music" data-aos="fade-up">
+        <h2 class="gold-text">Your Voice</h2>
+        <p>Recordings I treasure.</p>
+        
+        <div class="audio-card">
+            <small>Recording 01</small>
+            <audio controls src="LINK_TO_AUDIO_FILE_1"></audio>
+        </div>
+        
+        <div class="audio-card">
+            <small>Recording 02</small>
+            <audio controls src="LINK_TO_AUDIO_FILE_2"></audio>
+        </div>
+    </section>
+
+    <!-- SECTION 4: Message -->
+    <section id="end" data-aos="zoom-in">
+        <h2 class="gold-text">Happy Birthday, Shreya.</h2>
+        <p class="note">"Insert your heartfelt personal note here."</p>
+    </section>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        // Initialize Scroll Animations
+        AOS.init({ duration: 1500 });
+
+        const gate = document.getElementById('landing-gate');
+        const splash = document.getElementById('video-splash');
+        const video = document.getElementById('intro-video');
+
+        // Called when user clicks "Open Special Message"
+        function startExperience() {
+            // Fade out the landing gate button screen
+            gate.classList.add('fade-out');
+            
+            // Play the video with sound safely now!
+            video.play().catch(error => {
+                console.log("Playback failed, but gate ensures it usually passes: ", error);
+            });
+        }
+
+        // Smoothly hide the video splash screen
+        function exitSplash() {
+            splash.classList.add('fade-out');
+            video.pause(); 
+        }
+
+        // Auto-advance when the intro video ends naturally
+        video.onended = function() {
+            exitSplash();
+        };
+    </script>
+</body>
+</html>
